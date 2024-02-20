@@ -39,8 +39,8 @@ public class EcouteurDeSouris implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent event) {
 		Integer cellSize = niveauGraphique.cellSize;
-		int colonne = event.getX() / cellSize;
-		int ligne = (event.getY() - 30) / cellSize;
+		int colonne = (event.getX() - niveauGraphique.offset_x)/ cellSize;
+		int ligne = (event.getY() - niveauGraphique.offset_y - 30) / cellSize;
 		Jeu jeu = niveauGraphique.jeu;
 		Niveau niveau = jeu.niveau();
 		if (niveau.gagne()) {

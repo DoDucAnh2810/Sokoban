@@ -13,7 +13,7 @@ public class InterfaceGraphique implements Runnable {
 		frame = new JFrame("Sokoban");
 	
 		// Ajout de notre composant de dessin dans la fenetre
-		NiveauGraphique niveauGraphique = new NiveauGraphique(jeu);
+		NiveauGraphique niveauGraphique = new NiveauGraphique(frame, jeu);
 		frame.add(niveauGraphique);
 		frame.addMouseListener(new EcouteurDeSouris(niveauGraphique));
 		frame.addKeyListener(new EcouteurDeClavier(niveauGraphique));

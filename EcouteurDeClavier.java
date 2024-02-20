@@ -1,18 +1,16 @@
-
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class EcouteurDeClavier implements KeyListener {
     NiveauGraphique niveauGraphique;
-
+    
     public EcouteurDeClavier(NiveauGraphique niveauGraphique) {
         this.niveauGraphique = niveauGraphique;
     }
     @Override public void keyPressed(KeyEvent event) {
 		Jeu jeu = niveauGraphique.jeu;
 		Niveau niveau = jeu.niveau();
-		if (niveau.gagne()) {
+		if (niveau.gagne()) {        
 			if (jeu.prochainNiveau()){
 				niveauGraphique.repaint();
 				return;
