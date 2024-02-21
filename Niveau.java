@@ -3,6 +3,7 @@ import java.io.IOException;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -19,6 +20,7 @@ class Niveau {
    Clip metal_pipe;
    Clip footstep;
    Clip moan;
+   Clip sweden;
 
    public Niveau(int lignes, int colonnes, String nom) {
       this.lignes = lignes;
@@ -41,6 +43,17 @@ class Niveau {
          footstep.open(AudioSystem.getAudioInputStream(new File("/home/do/Music/block_short.wav")));
          moan = AudioSystem.getClip();
          moan.open(AudioSystem.getAudioInputStream(new File("/home/do/Music/moan.wav")));
+         sweden = AudioSystem.getClip();
+         sweden.open(AudioSystem.getAudioInputStream(new File("/home/do/Music/Sweden.wav")));
+         FloatControl moanControl = (FloatControl) moan.getControl(FloatControl.Type.MASTER_GAIN);
+         moanControl.setValue(-17.0f);
+         FloatControl metal_pipeControl = (FloatControl) metal_pipe.getControl(FloatControl.Type.MASTER_GAIN);
+         metal_pipeControl.setValue(6.0f);
+         FloatControl footstepControl = (FloatControl) footstep.getControl(FloatControl.Type.MASTER_GAIN);
+         footstepControl.setValue(6.0f);
+         FloatControl swedenControl = (FloatControl) sweden.getControl(FloatControl.Type.MASTER_GAIN);
+         swedenControl.setValue(-17.0f);
+         sweden.start();
       } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
          e.printStackTrace();
       }
@@ -138,14 +151,18 @@ class Niveau {
    }
 
    public boolean adjacentPousseur(int i, int j) {
-      if (j == pousseur_j) 
-         return i == (pousseur_i - 1) ||
-                i == (pousseur_i + 1);
-      else if (i == pousseur_i) 
-         return j == (pousseur_j - 1) ||
-                j == (pousseur_j + 1);
-      else
-         return false;
+      if (j == pousseur_j && (i == (pousseur_i - 1) ||
+                              i == (pousseur_i + 1))) 
+         return true;
+      else if (i == pousseur_i && (j == (pousseur_j - 1) ||
+                                  j == (pousseur_j + 1))) 
+         return true;
+      else {
+         moan.setFramePosition(0);
+         moan.start();
+         moan.drain();
+         return false; 
+      }
    }
 
    public void removePousseur() {
