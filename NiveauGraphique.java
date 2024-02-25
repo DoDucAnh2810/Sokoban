@@ -8,9 +8,13 @@ import java.io.*;
 public class NiveauGraphique extends JComponent{
     JFrame frame;
     Jeu jeu;
-    Integer cellSize;
-    Integer offset_x;
-    Integer offset_y;
+    int totalWidth;
+    int totalHeight;
+    Niveau niveau;
+    int nbRows;
+    int nbCols;
+    int cellSize;
+    Point offset;
     Image but;
     Image caisseSurBut;
     Image caisse;
@@ -22,6 +26,7 @@ public class NiveauGraphique extends JComponent{
         try {
             this.frame = frame;
             this.jeu = jeu;
+            offset = new Point();
 			but = ImageIO.read(ouvre("Data/But.png"));
 			caisseSurBut = ImageIO.read(ouvre("Data/Caisse_sur_but.png"));
 			caisse = ImageIO.read(ouvre("Data/Caisse.png"));
@@ -34,22 +39,30 @@ public class NiveauGraphique extends JComponent{
 		}
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        Niveau niveau = jeu.niveau();
-        Graphics2D drawable = (Graphics2D) g;
-        int totalWidth = frame.getWidth();
-        int totalHeight = frame.getHeight() - 30;
-        int nbRows = niveau.lignes();
-        int nbCols = niveau.colonnes();
-        cellSize = Math.min(totalWidth / nbCols, totalHeight / nbRows);
+    private void updateCellSize() {
+        cellSize =  Math.min(totalWidth / nbCols, totalHeight / nbRows);
+    }
+
+    private void updateOffset() {
         int levelWidth = cellSize * nbCols;
         int levelHeight = cellSize * nbRows;
-        offset_x = (totalWidth - levelWidth) / 2;
-        offset_y = (totalHeight - levelHeight) / 2;
+        offset.x = (totalWidth - levelWidth) / 2;
+        offset.y = (totalHeight - levelHeight) / 2;
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D drawable = (Graphics2D) g;
+        totalWidth = frame.getWidth();
+        totalHeight = frame.getHeight() - 30;
+        niveau = jeu.niveau();
+        nbRows = niveau.lignes();
+        nbCols = niveau.colonnes();
+        updateCellSize();
+        updateOffset();
 
         for (int i = 0; i*cellSize <= totalHeight; i++)
-            for (int j = 0; (int) (j*cellSize) <= totalWidth; j++)
+            for (int j = 0; j*cellSize <= totalWidth; j++)
                 drawable.drawImage(sol, j*cellSize, i*cellSize,
                                     cellSize, cellSize, null);  
 
@@ -71,19 +84,19 @@ public class NiveauGraphique extends JComponent{
                     break;
                 case '@':
                     currentImage = pousseur;
-                    drawable.drawImage(sol, offset_x + j*cellSize, offset_y + i*cellSize,  
+                    drawable.drawImage(sol, offset.x + j*cellSize, offset.y + i*cellSize,  
                                        cellSize, cellSize, null);
                     break;
                 case '+':
                     currentImage = pousseur;
-                    drawable.drawImage(but, offset_x + j*cellSize, offset_y + i*cellSize,
+                    drawable.drawImage(but, offset.x + j*cellSize, offset.y + i*cellSize,
                                     cellSize, cellSize, null);
                     break;
                 default:
                     currentImage = sol;
                     break;
                 }
-                drawable.drawImage(currentImage, offset_x + j*cellSize, offset_y + i*cellSize,  
+                drawable.drawImage(currentImage, offset.x + j*cellSize, offset.y + i*cellSize,  
                                    cellSize, cellSize, null);
             }
         }

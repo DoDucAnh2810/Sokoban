@@ -26,6 +26,7 @@
  */
 
 //import javax.swing.*;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -36,11 +37,19 @@ public class EcouteurDeSouris implements MouseListener {
 		this.niveauGraphique = niveauGraphique;
 	}
 
+	private Point calculateCaisse(MouseEvent event) {
+		Point choosenCaisse = new Point();
+		Integer cellSize = niveauGraphique.cellSize;
+		choosenCaisse.x = (event.getX() - niveauGraphique.offset.x)/ cellSize;
+		choosenCaisse.y = (event.getY() - niveauGraphique.offset.y - 30) / cellSize;
+		return choosenCaisse;
+	}
+
 	@Override
 	public void mousePressed(MouseEvent event) {
-		Integer cellSize = niveauGraphique.cellSize;
-		int colonne = (event.getX() - niveauGraphique.offset_x)/ cellSize;
-		int ligne = (event.getY() - niveauGraphique.offset_y - 30) / cellSize;
+		Point choosenCaisse = calculateCaisse(event);
+		int ligne = choosenCaisse.y;
+		int colonne = choosenCaisse.x;
 		Jeu jeu = niveauGraphique.jeu;
 		Niveau niveau = jeu.niveau();
 		if (niveau.gagne()) {
@@ -50,11 +59,7 @@ public class EcouteurDeSouris implements MouseListener {
 			} else
 				System.exit(0);
 		}
-		if (!niveau.adjacentPousseur(ligne, colonne))
-			return;
-		if (niveau.estVide(ligne, colonne) || 
-			(niveau.aCaisse(ligne, colonne) &&
-			 niveau.movedCaisse(ligne, colonne))) {
+		if (niveau.validMove(ligne, colonne)) {
 			niveau.movePousseur(ligne, colonne);
 			niveauGraphique.repaint();
 		}

@@ -47,9 +47,7 @@ public class EcouteurDeClavier implements KeyListener {
             default:
                 return;
         }
-        if (niveau.estVide(ligne, colonne) || 
-            (niveau.aCaisse(ligne, colonne) &&
-             niveau.movedCaisse(ligne, colonne))) {
+        if (niveau.validMove(ligne, colonne)) {
             niveau.movePousseur(ligne, colonne);
             niveauGraphique.repaint();
         }

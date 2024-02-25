@@ -1,12 +1,6 @@
 import java.io.File;
 import java.io.IOException;
-
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
+import Global.Sound;
 class Niveau {
    private int lignes;
    private int colonnes;
@@ -16,11 +10,7 @@ class Niveau {
    int pousseur_j;
    int nombreBut;
    int nombreCaisseSurBut;
-   Clip super_idol_hardstyle;
-   Clip metal_pipe;
-   Clip footstep;
-   Clip moan;
-   Clip sweden;
+   Sound sound;
 
    public Niveau(int lignes, int colonnes, String nom) {
       this.lignes = lignes;
@@ -34,29 +24,7 @@ class Niveau {
       }
       nombreBut = nombreCaisseSurBut = 0;
       fixeNom(nom);
-      try {
-         super_idol_hardstyle = AudioSystem.getClip();
-         super_idol_hardstyle.open(AudioSystem.getAudioInputStream(new File("/home/do/Music/super_idol_hardstyle.wav")));
-         metal_pipe = AudioSystem.getClip();
-         metal_pipe.open(AudioSystem.getAudioInputStream(new File("/home/do/Music/metal_pipe.wav")));
-         footstep = AudioSystem.getClip();
-         footstep.open(AudioSystem.getAudioInputStream(new File("/home/do/Music/block_short.wav")));
-         moan = AudioSystem.getClip();
-         moan.open(AudioSystem.getAudioInputStream(new File("/home/do/Music/moan.wav")));
-         sweden = AudioSystem.getClip();
-         sweden.open(AudioSystem.getAudioInputStream(new File("/home/do/Music/Sweden.wav")));
-         FloatControl moanControl = (FloatControl) moan.getControl(FloatControl.Type.MASTER_GAIN);
-         moanControl.setValue(-17.0f);
-         FloatControl metal_pipeControl = (FloatControl) metal_pipe.getControl(FloatControl.Type.MASTER_GAIN);
-         metal_pipeControl.setValue(6.0f);
-         FloatControl footstepControl = (FloatControl) footstep.getControl(FloatControl.Type.MASTER_GAIN);
-         footstepControl.setValue(6.0f);
-         FloatControl swedenControl = (FloatControl) sweden.getControl(FloatControl.Type.MASTER_GAIN);
-         swedenControl.setValue(-17.0f);
-         sweden.start();
-      } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
-         e.printStackTrace();
-      }
+      sound = new Sound();
    }
 
    public int lignes() {
@@ -100,10 +68,8 @@ class Niveau {
       if (tableau[i][j] == '.') {
          tableau[i][j] = '*';
          nombreCaisseSurBut++;
-         if (!gagne()) {
-            metal_pipe.setFramePosition(0);
-            metal_pipe.start();
-         }
+         if (!gagne())
+            sound.playMetalPipe();
       } else
          tableau[i][j] = '$';
    }
@@ -116,11 +82,8 @@ class Niveau {
       if (tableau[i][j] == ' ' || tableau[i][j] == '.')
          return true;
       else {
-         if (!aCaisse(i, j)){
-            moan.setFramePosition(0);
-            moan.start();
-            moan.drain();
-         }
+         if (!aCaisse(i, j))
+            sound.playMoan();
          return false;
       }
    }
@@ -158,9 +121,7 @@ class Niveau {
                                   j == (pousseur_j + 1))) 
          return true;
       else {
-         moan.setFramePosition(0);
-         moan.start();
-         moan.drain();
+         sound.playMoan();
          return false; 
       }
    }
@@ -216,24 +177,24 @@ class Niveau {
       if (estVide(target_i, target_j)) {
          removeCaisse(i, j);
          ajouteCaisse(target_i, target_j);
-         if (gagne()) {
-            super_idol_hardstyle.setFramePosition(0);
-            super_idol_hardstyle.start();
-         }
-         footstep.setFramePosition(0);
-         footstep.start();
-         footstep.drain();
+         if (gagne())
+            sound.playSuperIdol();
+         sound.playBlock();
          return true;
       } else {
-         moan.setFramePosition(0);
-         moan.start();
-         moan.drain();
+         sound.playMoan();
          return false;
       }
    }
 
    public boolean gagne() {
       return nombreBut == nombreCaisseSurBut;
+   }
+
+   public boolean validMove(int ligne, int colonne) {
+      return adjacentPousseur(ligne, colonne) && 
+               (estVide(ligne, colonne) || 
+                  (aCaisse(ligne, colonne) && movedCaisse(ligne, colonne)));
    }
 }
  

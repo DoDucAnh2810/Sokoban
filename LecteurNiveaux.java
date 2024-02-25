@@ -12,6 +12,7 @@ class LecteurNiveaux {
          lireScanner = new Scanner(file);
       } catch (FileNotFoundException err) {
          err.printStackTrace();
+         System.exit(3);
       }
 
    }
