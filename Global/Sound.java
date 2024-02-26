@@ -2,7 +2,6 @@ package Global;
 
 import java.io.File;
 import java.io.IOException;
-
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
@@ -10,11 +9,11 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Sound {
-    Clip super_idol_hardstyle;
-    Clip metal_pipe;
-    Clip sweden;
-    Clip block;
-    Clip moan;
+    private Clip super_idol_hardstyle;
+    private Clip metal_pipe;
+    private Clip sweden;
+    private Clip block;
+    private Clip moan;
 
     public Sound() {
         super_idol_hardstyle = openClip("/home/do/Music/super_idol_hardstyle.wav");

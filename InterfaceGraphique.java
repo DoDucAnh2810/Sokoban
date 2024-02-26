@@ -1,8 +1,8 @@
 import javax.swing.JFrame;
 
 public class InterfaceGraphique implements Runnable {
-	JFrame frame;
-    Jeu jeu;
+	private JFrame frame;
+    private Jeu jeu;
 
     public InterfaceGraphique(Jeu jeu) {
         this.jeu = jeu;

@@ -6,21 +6,21 @@ import java.io.*;
 
 
 public class NiveauGraphique extends JComponent{
-    JFrame frame;
-    Jeu jeu;
-    int totalWidth;
-    int totalHeight;
-    Niveau niveau;
-    int nbRows;
-    int nbCols;
-    int cellSize;
-    Point offset;
-    Image but;
-    Image caisseSurBut;
-    Image caisse;
-    Image mur;
-    Image pousseur;
-    Image sol;
+    private Frame frame;
+    public Jeu jeu;
+    private int totalWidth;
+    private int totalHeight;
+    private Niveau niveau;
+    private int nbRows;
+    private int nbCols;
+    public int cellSize;
+    public Point offset;
+    private Image but;
+    private Image caisseSurBut;
+    private Image caisse;
+    private Image mur;
+    private Image pousseur;
+    private Image sol;
 
     public NiveauGraphique(JFrame frame, Jeu jeu) {
         try {

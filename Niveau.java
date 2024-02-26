@@ -1,16 +1,14 @@
-import java.io.File;
-import java.io.IOException;
 import Global.Sound;
 class Niveau {
+   public char[][] tableau;
    private int lignes;
    private int colonnes;
-   char[][] tableau;
    private String nom;
-   int pousseur_i;
-   int pousseur_j;
-   int nombreBut;
-   int nombreCaisseSurBut;
-   Sound sound;
+   public int pousseur_i;
+   public int pousseur_j;
+   public int nombreBut;
+   public int nombreCaisseSurBut;
+   private Sound sound;
 
    public Niveau(int lignes, int colonnes, String nom) {
       this.lignes = lignes;
@@ -153,6 +151,7 @@ class Niveau {
    public boolean valideColonne(int j) {
       return 0 <= j && j < colonnes;
    }
+   
    public boolean movedCaisse(int i, int j) {
       if (!adjacentPousseur(i, j) || !aCaisse(i, j))
          return false;
@@ -192,9 +191,8 @@ class Niveau {
    }
 
    public boolean validMove(int ligne, int colonne) {
-      return adjacentPousseur(ligne, colonne) && 
-               (estVide(ligne, colonne) || 
-                  (aCaisse(ligne, colonne) && movedCaisse(ligne, colonne)));
+      return adjacentPousseur(ligne, colonne) && (estVide(ligne, colonne) || 
+               (aCaisse(ligne, colonne) && movedCaisse(ligne, colonne)));
    }
 }
  
