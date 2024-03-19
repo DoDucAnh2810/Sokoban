@@ -1,8 +1,11 @@
+package Vue;
+
 import static Global.Configuration.ouvre;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import Modele.*;
 
 
 public class NiveauGraphique extends JComponent{

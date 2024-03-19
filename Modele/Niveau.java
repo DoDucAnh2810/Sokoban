@@ -1,5 +1,7 @@
+package Modele;
+
 import Global.Sound;
-class Niveau {
+public class Niveau {
    public char[][] tableau;
    private int lignes;
    private int colonnes;

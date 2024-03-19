@@ -26,9 +26,13 @@
  */
 
 //import javax.swing.*;
+package Controleur;
+
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import Vue.*;
+import Modele.*;
 
 public class EcouteurDeSouris implements MouseListener {
 	private NiveauGraphique niveauGraphique;

@@ -1,3 +1,5 @@
+package Modele;
+
 import java.io.File;
 
 public class Jeu {
@@ -9,11 +11,11 @@ public class Jeu {
         niveau = lecteur.lisProchainNiveau();
     }
 
-    Niveau niveau() {
+    public Niveau niveau() {
         return niveau;
     }
 
-    boolean prochainNiveau() {
+    public boolean prochainNiveau() {
         niveau = lecteur.lisProchainNiveau();
         if (niveau == null)
             return false;

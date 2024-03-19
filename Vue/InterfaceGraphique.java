@@ -1,4 +1,8 @@
+package Vue;
+
 import javax.swing.JFrame;
+import Controleur.*;
+import Modele.*;
 
 public class InterfaceGraphique implements Runnable {
 	private JFrame frame;

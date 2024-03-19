@@ -1,5 +1,9 @@
+package Controleur;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import Vue.*;
+import Modele.*;
 
 public class EcouteurDeClavier implements KeyListener {
     private NiveauGraphique niveauGraphique;

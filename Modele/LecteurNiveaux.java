@@ -1,8 +1,10 @@
+package Modele;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-class LecteurNiveaux {
+public class LecteurNiveaux {
    private Scanner initScanner;
    private Scanner lireScanner;
 

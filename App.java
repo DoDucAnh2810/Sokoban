@@ -1,4 +1,6 @@
 import javax.swing.SwingUtilities;
+import Vue.*;
+import Modele.*;
 
 class App {
 	public static void main(String[] args) {
